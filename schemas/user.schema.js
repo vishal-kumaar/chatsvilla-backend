@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePictrue: {
       type: String,
+      default: "",
     },
     username: {
       type: String,
