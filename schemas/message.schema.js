@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { messageTypeEnum } from "../utils/enums";
 
 const messageSchema = new mongoose.Schema(
   {
@@ -16,7 +17,7 @@ const messageSchema = new mongoose.Schema(
     ],
     messageType: {
       type: String,
-      enum: ["text", "image", "video"],
+      enum: messageTypeEnum,
       default: "text",
     },
     message: {

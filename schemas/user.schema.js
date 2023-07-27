@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import config from "../config/index.js";
+import { genderEnum } from "../utils/enums.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -39,6 +40,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
+      enum: genderEnum,
       default: "Unknown",
     },
     friends: [
