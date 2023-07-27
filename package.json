@@ -2,11 +2,17 @@
   "name": "chatsvilla-backend",
   "version": "1.0.0",
   "description": "The is the chat application.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.1"
+  }
 }
