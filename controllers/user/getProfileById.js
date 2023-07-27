@@ -5,7 +5,7 @@ import User from "../../schemas/user.schema.js";
 /********************************************************
  * @GET_PROFILE_BY_ID
  * @METHOD GET
- * @route /api/user/profile:userId
+ * @route /api/user/profile/:userId
  * @description Check for req.user and identify if user is owner or not and send profile
  * @parameters userId
  * @return User object

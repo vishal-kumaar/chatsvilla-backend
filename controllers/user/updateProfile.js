@@ -6,7 +6,7 @@ import { genderEnum } from "../../utils/enums.js";
 /********************************************************
  * @UPDATE_PROFIlE
  * @METHOD PATCH
- * @route /api/user/update
+ * @route /api/user/profile/update
  * @description Check for req.user and update the user profile
  * @parameters name, username, gender, bio
  * @return user object
@@ -44,7 +44,8 @@ const updateProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Profile Update Successfully",
+    user,
   });
 });
 
-export default updateDetails;
+export default updateProfile;
