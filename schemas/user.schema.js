@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import config from "../config/index.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -89,9 +90,9 @@ userSchema.methods = {
         id: this._id,
         username: this.username,
       },
-      process.env.JWT_SECRET_KEY,
+      config.jwtSecret,
       {
-        expiresIn: process.env.JWT_EXPIRY,
+        expiresIn: config.jwtExpiry,
       }
     );
   },
