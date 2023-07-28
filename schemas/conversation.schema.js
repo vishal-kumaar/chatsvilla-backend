@@ -13,10 +13,10 @@ const conversationSchema = new mongoose.Schema(
           type: Number,
           default: 0,
         },
-        isDeleted:{
+        isDeleted: {
           type: Boolean,
           default: false,
-        }
+        },
       },
     ],
     messages: [
@@ -25,6 +25,10 @@ const conversationSchema = new mongoose.Schema(
         ref: "Message",
       },
     ],
+    lastMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
   },
   {
     timestamps: true,

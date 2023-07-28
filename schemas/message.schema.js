@@ -10,11 +10,22 @@ const messageSchema = new mongoose.Schema(
     },
     recipients: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        isDeleted: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
+    conversation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Conversation",
+      required: true,
+    },
     messageType: {
       type: String,
       enum: messageTypeEnum,
@@ -25,6 +36,10 @@ const messageSchema = new mongoose.Schema(
       required: true,
     },
     isRead: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
       type: Boolean,
       default: false,
     },
