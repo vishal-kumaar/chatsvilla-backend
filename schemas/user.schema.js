@@ -74,6 +74,16 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    publicKey: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    privateKey: {
+      type: String,
+      required: true,
+      select: false,
+    },
   },
   {
     timestamps: true,
@@ -84,15 +94,33 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcryptjs.hash(this.password, 10);
   }
+
+  if (this.isModified("publicKey") && this.isModified("privateKey")) {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+      modulusLength: 2048,
+      publicKeyEncoding: {
+        type: "spki",
+        format: "pem",
+      },
+      privateKeyEncoding: {
+        type: "pkcs8",
+        format: "pem",
+      },
+    });
+
+    this.publicKey = publicKey;
+    this.privateKey = privateKey;
+  }
+
   next();
 });
 
 userSchema.methods = {
-  compatePassword: async function (enteredPassword) {
+  comparePassword: async function (enteredPassword) {
     return await bcryptjs.compare(enteredPassword, this.password);
   },
 
-  getUserToken: async function () {
+  getUserToken: function () {
     return jwt.sign(
       {
         id: this._id,
