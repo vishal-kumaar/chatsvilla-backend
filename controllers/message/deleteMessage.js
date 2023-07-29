@@ -3,23 +3,17 @@ import CustomError from "../../utils/CustomError.js";
 import Message from "../../schemas/message.schema.js";
 
 /********************************************************
- * @EDIT_MESSAGE
- * @METHOD PUT
+ * @DELETE_MESSAGE
+ * @METHOD DELETE
  * @route /api/messages/:messageId
- * @description Edit a message
+ * @description Delete a message
  * @parameters messageId (in URL)
- * @body message (in request body)
- * @return edited message object
+ * @return deleted message object
  *********************************************************/
 
-const editMessage = asyncHandler(async (req, res) => {
+const deleteMessage = asyncHandler(async (req, res) => {
   const { messageId } = req.params;
-  const { message } = req.body;
   const userId = req.user._id;
-
-  if (!message) {
-    throw new CustomError("Message is required", 400);
-  }
 
   const foundMessage = await Message.findById(messageId);
 
@@ -27,11 +21,20 @@ const editMessage = asyncHandler(async (req, res) => {
     throw new CustomError("Message not found", 404);
   }
 
-  if (!foundMessage.sender.equals(userId)) {
-    throw new CustomError("You are not the sender of this message", 403);
+  if (foundMessage.sender.equals(userId)) {
+    foundMessage.isDeleted = true;
+  } else {
+    const matchingRecipientIndex = foundMessage.recipients.findIndex(
+      (recipient) => recipient.user.equals(userId)
+    );
+
+    if (matchingRecipientIndex === -1) {
+      throw new CustomError("You are not the sender of this message", 403);
+    }
+
+    foundMessage.recipients[matchingRecipientIndex].isDeleted = true;
   }
 
-  foundMessage.message = message;
   await foundMessage.save();
 
   res.status(200).json({
@@ -40,4 +43,4 @@ const editMessage = asyncHandler(async (req, res) => {
   });
 });
 
-export default editMessage;
+export default deleteMessage;
