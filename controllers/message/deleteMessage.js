@@ -1,6 +1,7 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
 import Message from "../../schemas/message.schema.js";
+import Conversation from "../../schemas/conversation.schema.js";
 
 /********************************************************
  * @DELETE_MESSAGE
@@ -22,7 +23,10 @@ const deleteMessage = asyncHandler(async (req, res) => {
   }
 
   if (foundMessage.sender.equals(userId)) {
-    foundMessage.isDeleted = true;
+    await Message.findByIdAndDelete(messageId);
+    await Conversation.findByIdAndUpdate(foundMessage.conversation, {
+      $pull: { messages: messageId },
+    });
   } else {
     const matchingRecipientIndex = foundMessage.recipients.findIndex(
       (recipient) => recipient.user.equals(userId)
@@ -33,9 +37,8 @@ const deleteMessage = asyncHandler(async (req, res) => {
     }
 
     foundMessage.recipients[matchingRecipientIndex].isDeleted = true;
+    await foundMessage.save();
   }
-
-  await foundMessage.save();
 
   res.status(200).json({
     success: true,
