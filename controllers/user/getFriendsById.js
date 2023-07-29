@@ -21,7 +21,7 @@ const getFriendsId = asyncHandler(async (req, res) => {
   }
 
   const populatedUser = await user
-    .populate("friends", "name profilePicture")
+    .populate("friends", "name profilePicture username")
     .execPopulate();
   const friends = populatedUser.friends;
 

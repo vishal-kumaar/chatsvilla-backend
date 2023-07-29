@@ -13,7 +13,7 @@ const getReceivedRequests = asyncHandler(async (req, res) => {
   const { user } = req;
 
   const populatedUser = await user
-    .populate("receivedFriendRequests", "name profilePicture")
+    .populate("receivedFriendRequests", "name profilePicture username")
     .execPopulate();
   const receivedRequests = populatedUser.receivedFriendRequests;
 
