@@ -17,6 +17,11 @@ const conversationSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
+    groupAdmin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: undefined,
+    },
     participants: [
       {
         user: {
