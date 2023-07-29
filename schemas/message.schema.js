@@ -3,14 +3,14 @@ import { messageTypeEnum } from "../utils/enums";
 
 const messageSchema = new mongoose.Schema(
   {
-    sender: {
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     recipients: [
       {
-        user: {
+        userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
           required: true,
@@ -19,9 +19,13 @@ const messageSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
+        isRead: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
-    conversation: {
+    conversationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Conversation",
       required: true,
@@ -34,10 +38,6 @@ const messageSchema = new mongoose.Schema(
     message: {
       type: String,
       required: true,
-    },
-    isRead: {
-      type: Boolean,
-      default: false,
     },
     isDeleted: {
       type: Boolean,

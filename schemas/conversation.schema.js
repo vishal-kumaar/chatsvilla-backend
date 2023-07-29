@@ -1,10 +1,25 @@
 import mongoose from "mongoose";
+import { conversationTypeEnum } from "../utils/enums";
 
 const conversationSchema = new mongoose.Schema(
   {
+    type: {
+      type: String,
+      enum: conversationTypeEnum,
+      required: true,
+      default: "Individual",
+    },
+    groupPicture: {
+      type: String,
+      default: undefined,
+    },
+    groupName: {
+      type: String,
+      default: undefined,
+    },
     participants: [
       {
-        user: {
+        userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
           required: true,
@@ -19,13 +34,13 @@ const conversationSchema = new mongoose.Schema(
         },
       },
     ],
-    messages: [
+    messagesId: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Message",
       },
     ],
-    lastMessage: {
+    lastMessageId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
