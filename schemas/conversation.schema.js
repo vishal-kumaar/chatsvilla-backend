@@ -19,7 +19,7 @@ const conversationSchema = new mongoose.Schema(
     },
     participants: [
       {
-        userId: {
+        user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
           required: true,
@@ -34,13 +34,13 @@ const conversationSchema = new mongoose.Schema(
         },
       },
     ],
-    messagesId: [
+    messages: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Message",
       },
     ],
-    lastMessageId: {
+    lastMessage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },

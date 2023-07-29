@@ -43,19 +43,19 @@ const userSchema = new mongoose.Schema(
       enum: genderEnum,
       default: "Unknown",
     },
-    friendsId: [
+    friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
-    sentFriendRequestsId: [
+    sentFriendRequests: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
-    receivedFriendRequestsId: [
+    receivedFriendRequests: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema(
     lastSeen: {
       type: Date,
     },
-    blockedUsersId: [
+    blockedUsers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
