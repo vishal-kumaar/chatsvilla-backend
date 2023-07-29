@@ -29,10 +29,6 @@ const conversationSchema = new mongoose.Schema(
           ref: "User",
           required: true,
         },
-        unreadMessageCount: {
-          type: Number,
-          default: 0,
-        },
         isDeleted: {
           type: Boolean,
           default: false,
