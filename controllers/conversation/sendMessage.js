@@ -67,7 +67,7 @@ const sendMessage = asyncHandler(async (req, res) => {
   }
 
   const recipientIds = conversation.participants.map(
-    (participant) => participant.user
+    (participant) => participant.user._id
   );
 
   const newMessage = await Message.create({
@@ -80,12 +80,12 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   conversation.participants.forEach((participant) => {
     const recipientId = participant.user._id;
-    if (connectedUsers.includes(recipientId.toString())) {
+    if (connectedUsers.has(recipientId.toString())) {
       io.to(recipientId).emit("newMessage", newMessage);
     }
   });
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     message: newMessage,
   });
