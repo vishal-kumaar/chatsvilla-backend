@@ -95,23 +95,6 @@ userSchema.pre("save", async function (next) {
     this.password = await bcryptjs.hash(this.password, 10);
   }
 
-  if (this.isModified("publicKey") && this.isModified("privateKey")) {
-    const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
-      modulusLength: 2048,
-      publicKeyEncoding: {
-        type: "spki",
-        format: "pem",
-      },
-      privateKeyEncoding: {
-        type: "pkcs8",
-        format: "pem",
-      },
-    });
-
-    this.publicKey = publicKey;
-    this.privateKey = privateKey;
-  }
-
   next();
 });
 
