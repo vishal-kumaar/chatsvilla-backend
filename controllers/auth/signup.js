@@ -1,7 +1,8 @@
+import crypto from "crypto";
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
 import User from "../../schemas/user.schema.js";
-import crypto from "crypto";
+import { genderEnum } from "../../utils/enums.js";
 
 /********************************************************
  * @SIGNUP
@@ -13,10 +14,14 @@ import crypto from "crypto";
  *********************************************************/
 
 const sigup = asyncHandler(async (req, res) => {
-  const { name, username, email, password } = req.body;
+  const { name, username, email, gender, password } = req.body;
 
-  if (!name || !username || !email || !password) {
+  if (!name || !username || !email || !gender || !password) {
     throw new CustomError("All fields are required", 400);
+  }
+
+  if (!genderEnum.includes(gender)) {
+    throw new CustomError("Invalid gender value", 400);
   }
 
   const existingUser = await User.findOne({ email });
