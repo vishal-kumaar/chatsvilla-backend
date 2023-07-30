@@ -4,7 +4,7 @@ import CustomError from "../../utils/CustomError.js";
 /********************************************************
  * @UPDATE_STATUS
  * @METHOD PATCH
- * @route /api/user/status
+ * @route /api/user/status/update
  * @description Update user online status and last seen timestamp
  * @parameters online (Boolean)
  * @return updated user object
