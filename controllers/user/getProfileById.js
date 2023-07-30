@@ -22,7 +22,7 @@ const getProfileById = asyncHandler(async (req, res) => {
 
   let isOwner = false;
 
-  if (req.user && user._id.equals(req.user._id)) {
+  if (user._id.equals(req.user._id)) {
     isOwner = true;
   }
 
