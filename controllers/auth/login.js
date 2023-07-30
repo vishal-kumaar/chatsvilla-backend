@@ -32,8 +32,10 @@ const login = asyncHandler(async (req, res) => {
     throw new CustomError("Invalid credentials", 401);
   }
 
-  const token = user.getJwtToken();
+  const token = user.getUserToken();
   user.password = undefined;
+  user.publicKey = undefined;
+  user.privateKey = undefined;
 
   res.status(200).json({
     success: true,

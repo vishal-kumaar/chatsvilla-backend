@@ -1,6 +1,7 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
 import User from "../../schemas/user.schema.js";
+import crypto from "crypto";
 
 /********************************************************
  * @SIGNUP
@@ -30,15 +31,31 @@ const sigup = asyncHandler(async (req, res) => {
     throw new CustomError("Username already exists", 409);
   }
 
+  const { publicKey, privateKey } = await crypto.generateKeyPairSync("rsa", {
+    modulusLength: 2048,
+    publicKeyEncoding: {
+      type: "spki",
+      format: "pem",
+    },
+    privateKeyEncoding: {
+      type: "pkcs8",
+      format: "pem",
+    },
+  });
+
   const user = await User.create({
     name,
     username,
     email,
     password,
+    publicKey,
+    privateKey,
   });
 
-  const token = user.getJwtToken();
+  const token = user.getUserToken();
   user.password = undefined;
+  user.publicKey = undefined;
+  user.privateKey = undefined;
 
   return res.status(200).json({
     success: true,
