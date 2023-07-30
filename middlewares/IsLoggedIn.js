@@ -13,7 +13,6 @@ const isLoggedIn = asyncHandler(async (req, _res, next) => {
 
   try {
     const decodedJwtPayload = jwt.verify(token, config.jwtSecret);
-    console.log(decodedJwtPayload)
     req.user = await User.findById(decodedJwtPayload._id);
     next();
   } catch (error) {
