@@ -8,7 +8,7 @@ import { io, connectedUsers } from "../../app.js";
 /********************************************************
  * @SEND_MESSAGE
  * @METHOD POST
- * @route /api/conversations/:conversationId/messages
+ * @route /api/conversation/:conversationId/messages
  * @description Send a new message to an existing conversation or create a new conversation and send the message
  * @parameters conversationId (in URL)
  * @body message (in request body)

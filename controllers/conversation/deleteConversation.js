@@ -6,7 +6,7 @@ import Message from "../../schemas/message.schema.js";
 /********************************************************
  * @DELETE_CONVERSATION
  * @METHOD DELETE
- * @route /api/conversations/:conversationId
+ * @route /api/conversation/:conversationId
  * @description Delete a conversation
  * @parameters conversationId (in URL)
  * @return deleted conversation object

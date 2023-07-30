@@ -4,7 +4,7 @@ import Conversation from "../../schemas/conversation.schema.js";
 /********************************************************
  * @GET_ALL_CONVERSATIONS
  * @METHOD GET
- * @route /api/conversations
+ * @route /api/conversation
  * @description Get all conversations
  * @return array of conversation objects
  *********************************************************/

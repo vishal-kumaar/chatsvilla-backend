@@ -4,8 +4,8 @@ import Conversation from "../../schemas/conversation.schema.js";
 
 /********************************************************
  * @MARK_CONVERSATION_AS_READ
- * @METHOD PUT
- * @route /api/conversations/:conversationId/mark-read
+ * @METHOD PATCH
+ * @route /api/conversation/:conversationId/read
  * @description Mark a conversation as read for a specific user
  * @parameters conversationId (in URL)
  * @return updated conversation object
