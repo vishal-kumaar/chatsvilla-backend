@@ -4,7 +4,6 @@ import Conversation from "../../schemas/conversation.schema.js";
 import Message from "../../schemas/message.schema.js";
 import User from "../../schemas/user.schema.js";
 import { io, connectedUsers } from "../../app.js";
-import { messageTypeEnum } from "../../utils/enums.js";
 
 /********************************************************
  * @SEND_MESSAGE
@@ -20,14 +19,6 @@ const sendMessage = asyncHandler(async (req, res) => {
   const { conversationId } = req.params;
   const { message, messageType } = req.body;
   const { user } = req;
-
-  if (!message) {
-    throw new CustomError("Message is required", 400);
-  }
-
-  if (!messageTypeEnum.includes(messageType)) {
-    throw new CustomError("Message type is unsupported", 404);
-  }
 
   let conversation = await Conversation.findById(conversationId).populate(
     "participants.user"
@@ -59,7 +50,7 @@ const sendMessage = asyncHandler(async (req, res) => {
 
       conversation = await Conversation.create({
         participants: [{ user: user._id }, { user: recipientId }],
-        type: "individual",
+        type: "Individual",
       });
     }
   } else {

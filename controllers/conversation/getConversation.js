@@ -32,6 +32,7 @@ const getConversation = asyncHandler(async (req, res) => {
     throw new CustomError("Conversation not found", 404);
   }
 
+  let isDeleted;
   const isParticipant = conversation.participants.some((participant) => {
     if (participant.user.equals(user._id)) {
       isDeleted = participant.isDeleted;

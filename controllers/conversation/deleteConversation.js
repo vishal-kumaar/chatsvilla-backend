@@ -49,6 +49,7 @@ const deleteConversation = asyncHandler(async (req, res) => {
 
   if (allParticipantsDeleted) {
     await Message.deleteMany({ conversation: conversationId });
+    await Conversation.findByIdAndDelete(conversationId);
   }
 
   res.status(200).json({
