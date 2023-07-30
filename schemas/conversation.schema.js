@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { conversationTypeEnum } from "../utils/enums";
+import { conversationTypeEnum } from "../utils/enums.js";
 
 const conversationSchema = new mongoose.Schema(
   {

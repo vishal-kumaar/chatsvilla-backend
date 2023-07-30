@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import socketIO from "socket.io";
+import { Server } from "socket.io";
 import morgan from "morgan";
 import cors from "cors";
 import corsConfig from "./config/corsConfig.js";
@@ -10,7 +10,7 @@ import conversationRoutes from "./routes/conversation.route.js";
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = new Server(server);
 
 const connectedUsers = new Set();
 
