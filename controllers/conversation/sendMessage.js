@@ -8,7 +8,7 @@ import { io, connectedUsers } from "../../app.js";
 /********************************************************
  * @SEND_MESSAGE
  * @METHOD POST
- * @route /api/conversation/:conversationId/messages
+ * @route /api/conversation/:conversationId/message
  * @description Send a new message to an existing conversation or create a new conversation and send the message
  * @parameters conversationId (in URL)
  * @body message (in request body)
@@ -26,6 +26,10 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   if (!conversation) {
     const recipientId = conversationId;
+
+    if (user._id.equals(recipientId)) {
+      throw new CustomError("You can't send message to yourself", 400);
+    }
 
     const recipientUser = await User.findById(recipientId);
     if (!recipientUser) {

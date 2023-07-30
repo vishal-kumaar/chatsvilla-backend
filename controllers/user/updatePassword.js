@@ -1,5 +1,6 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
+import User from "../../schemas/user.schema.js";
 
 /********************************************************
  * @UPDATE_PASSWORD
@@ -11,7 +12,6 @@ import CustomError from "../../utils/CustomError.js";
  *********************************************************/
 
 const updatePassword = asyncHandler(async (req, res) => {
-  const { user } = req;
   const { oldPassword, newPassword, confirmNewPassword } = req.body;
 
   if (!oldPassword || !newPassword || !confirmNewPassword) {
@@ -21,6 +21,8 @@ const updatePassword = asyncHandler(async (req, res) => {
   if (newPassword !== confirmNewPassword) {
     throw new CustomError("New and Confirm Password both must be same", 400);
   }
+
+  const user = await User.findById(req.user._id).select("+password");
 
   const isPasswordMatch = await user.comparePassword(oldPassword);
 

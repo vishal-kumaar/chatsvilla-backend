@@ -1,7 +1,6 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
 import User from "../../schemas/user.schema.js";
-import { genderEnum } from "../../utils/enums.js";
 
 /********************************************************
  * @UPDATE_PROFIlE
@@ -34,9 +33,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 
   user.name = name;
   user.username = username;
-  if (genderEnum.includes(gender)) {
     user.gender = gender;
-  }
   user.bio = bio;
 
   await user.save();

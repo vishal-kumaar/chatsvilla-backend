@@ -1,4 +1,5 @@
 import asyncHandler from "../../utils/asyncHandler.js";
+import User from "../../schemas/user.schema.js";
 
 /********************************************************
  * @GET_RECEIVED_REQUESTS
@@ -10,12 +11,13 @@ import asyncHandler from "../../utils/asyncHandler.js";
  *********************************************************/
 
 const getReceivedRequests = asyncHandler(async (req, res) => {
-  const { user } = req;
-
-  const populatedUser = await user
-    .populate("receivedFriendRequests", "name profilePicture username")
-    .execPopulate();
-  const receivedRequests = populatedUser.receivedFriendRequests;
+  const user = await User.findById(req.user._id)
+    .populate(
+      "receivedFriendRequests",
+      "name profilePicture username email gender"
+    )
+    .exec();
+  const receivedRequests = user.receivedFriendRequests;
 
   res.status(200).json({
     success: true,

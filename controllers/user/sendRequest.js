@@ -23,6 +23,9 @@ const sendRequest = asyncHandler(async (req, res) => {
   user.receivedFriendRequests.push(req.user._id);
   req.user.sentFriendRequests.push(user._id);
 
+  user.save();
+  req.user.save();
+
   res.status(200).json({
     success: true,
     message: "Friend Request Sent Successfully",
