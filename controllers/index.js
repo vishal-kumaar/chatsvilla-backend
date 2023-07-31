@@ -3,6 +3,7 @@ import login from "./auth/login.js";
 import searchPeople from "./user/searchPeople.js";
 import getProfileById from "./user/getProfileById.js";
 import getFriendsById from "./user/getFriendsById.js";
+import mutualFriends from "./user/mutualFriends.js";
 import sendRequest from "./user/sendRequest.js";
 import acceptFriendRequest from "./user/acceptFriendRequest.js";
 import getSentRequests from "./user/getSentRequests.js";
@@ -23,6 +24,7 @@ const controllers = {
   searchPeople,
   getProfileById,
   getFriendsById,
+  mutualFriends,
   sendRequest,
   acceptFriendRequest,
   getSentRequests,

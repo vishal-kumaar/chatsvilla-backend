@@ -11,9 +11,14 @@ router.get(
   controllers.getProfileById
 );
 router.get(
-  "/friends/:userId",
+  "/friend/:userId",
   middlewares.isLoggedIn,
   controllers.getFriendsById
+);
+router.get(
+  "/friend/:userId/mutual",
+  middlewares.isLoggedIn,
+  controllers.mutualFriends
 );
 router.patch(
   "/request/sent/:userId",
