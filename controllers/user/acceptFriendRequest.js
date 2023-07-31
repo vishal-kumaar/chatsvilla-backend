@@ -27,6 +27,7 @@ const acceptFriendRequest = asyncHandler(async (req, res) => {
   }
 
   user.friends.push(friendRequestSender);
+  friendRequestSender.friends.push(userId);
   await user.save();
 
   user.receivedFriendRequests = user.receivedFriendRequests.filter(
