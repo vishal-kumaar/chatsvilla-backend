@@ -10,6 +10,7 @@ router.get(
   middlewares.isLoggedIn,
   controllers.getProfileById
 );
+router.get("/friend", middlewares.isLoggedIn, controllers.getFriends);
 router.get(
   "/friend/:userId",
   middlewares.isLoggedIn,
