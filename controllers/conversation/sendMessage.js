@@ -20,6 +20,10 @@ const sendMessage = asyncHandler(async (req, res) => {
   const { message, messageType } = req.body;
   const { user } = req;
 
+  if (!message) {
+    throw new CustomError("Message is required", 400);
+  }
+
   let conversation = await Conversation.findById(conversationId).populate(
     "participants.user"
   );
@@ -70,9 +74,11 @@ const sendMessage = asyncHandler(async (req, res) => {
     }
   }
 
-  const recipientIds = conversation.participants.map(
-    (participant) => participant.user._id
-  );
+  const recipientIds = conversation.participants.filter((participant) => {
+    if (!participant.user._id.equals(user._id)) {
+      return { user: participant.user._id };
+    }
+  });
 
   const newMessage = await Message.create({
     sender: user._id,
@@ -88,6 +94,10 @@ const sendMessage = asyncHandler(async (req, res) => {
       io.to(recipientId).emit("newMessage", newMessage);
     }
   });
+
+  conversation.messages.push(newMessage._id);
+  conversation.lastMessage = newMessage._id;
+  await conversation.save();
 
   res.status(200).json({
     success: true,

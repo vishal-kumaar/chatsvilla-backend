@@ -1,6 +1,4 @@
 import asyncHandler from "../../utils/asyncHandler.js";
-import CustomError from "../../utils/CustomError.js";
-import Conversation from "../../schemas/conversation.schema.js";
 
 /********************************************************
  * @GET_CONVERSATION
@@ -12,52 +10,15 @@ import Conversation from "../../schemas/conversation.schema.js";
  *********************************************************/
 
 const getConversation = asyncHandler(async (req, res) => {
-  const { conversationId } = req.params;
-  const { user } = req;
-
-  const conversation = await Conversation.findById(conversationId)
-    .populate("participants.user", "name profilePic email")
-    .populate({
-      path: "messages",
-      match: {
-        $or: [
-          { sender: user._id },
-          { "recipients.user": user._id, "recipients.isDeleted": false },
-        ],
-      },
-    })
-    .exec();
-
-  if (!conversation) {
-    throw new CustomError("Conversation not found", 404);
-  }
-
-  let isDeleted;
-  const isParticipant = conversation.participants.some((participant) => {
-    if (participant.user.equals(user._id)) {
-      isDeleted = participant.isDeleted;
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  if (!isParticipant) {
-    throw new CustomError(
-      "You are not a participant in this conversation",
-      403
-    );
-  }
-
-  if (isDeleted) {
-    throw new CustomError("Conversation has been deleted", 404);
-  }
+  const { user, conversation } = req;
 
   const unreadMessageCount = conversation.messages.reduce((count, message) => {
-    const isRecipient = message.recipients.some((recipient) =>
-      recipient.user.equals(user._id)
-    );
-    if (isRecipient && !message.isRead) {
+    let isRead = false;
+    const isRecipient = message.recipients.some((recipient) => {
+      isRead = recipient.isRead;
+      return recipient.user.equals(user._id);
+    });
+    if (isRecipient && !isRead) {
       count += 1;
     }
     return count;

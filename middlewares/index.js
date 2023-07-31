@@ -1,9 +1,9 @@
 import isLoggedIn from "./isLoggedIn.js";
-import isValidMessageType from "./isValidMessageType.js";
+import isParticipant from "./isParticipant.js";
 
 const middlewares = {
   isLoggedIn,
-  isValidMessageType,
+  isParticipant,
 };
 
 export default middlewares;

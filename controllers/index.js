@@ -3,6 +3,7 @@ import login from "./auth/login.js";
 import getProfileById from "./user/getProfileById.js";
 import getFriendsById from "./user/getFriendsById.js";
 import sendRequest from "./user/sendRequest.js";
+import acceptFriendRequest from "./user/acceptFriendRequest.js";
 import getSentRequests from "./user/getSentRequests.js";
 import getReceivedRequests from "./user/getReceivedRequests.js";
 import updateProfile from "./user/updateProfile.js";
@@ -21,6 +22,7 @@ const controllers = {
   getProfileById,
   getFriendsById,
   sendRequest,
+  acceptFriendRequest,
   getSentRequests,
   getReceivedRequests,
   updateProfile,

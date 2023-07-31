@@ -20,12 +20,42 @@ const getAllConversations = asyncHandler(async (req, res) => {
       path: "participants.user",
       select: "name profilePic email",
     })
-    .populate("lastMessage")
+    .populate({
+      path: "messages",
+      match: {
+        $or: [
+          { sender: user._id },
+          { "recipients.user": user._id, "recipients.isDeleted": false },
+        ],
+      },
+    })
     .exec();
+
+  const conversationsWithUnreadCount = conversations.map((conversation) => {
+    const unreadMessageCount = conversation.messages.reduce(
+      (count, message) => {
+        let isRead = false;
+        const isRecipient = message.recipients.some((recipient) => {
+          isRead = recipient.isRead;
+          return recipient.user.equals(user._id);
+        });
+        if (isRecipient && !isRead) {
+          count += 1;
+        }
+        return count;
+      },
+      0
+    );
+
+    return {
+      ...conversation.toObject(),
+      unreadMessageCount,
+    };
+  });
 
   res.status(200).json({
     success: true,
-    conversations,
+    conversations: conversationsWithUnreadCount,
   });
 });
 

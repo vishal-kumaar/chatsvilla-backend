@@ -29,8 +29,7 @@ const sendRequest = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Friend Request Sent Successfully",
-    sender: req.user,
-    receiver: user,
+    user: req.user,
   });
 });
 

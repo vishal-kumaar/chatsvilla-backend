@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post(
   "/:conversationId/message",
-  [middlewares.isLoggedIn, middlewares.isValidMessageType],
+  middlewares.isLoggedIn,
   controllers.sendMessage
 );
 router.delete(
@@ -16,7 +16,7 @@ router.delete(
 );
 router.get(
   "/:conversationId",
-  middlewares.isLoggedIn,
+  [middlewares.isLoggedIn, middlewares.isParticipant],
   controllers.getConversation
 );
 router.get("/", middlewares.isLoggedIn, controllers.getAllConversations);
@@ -27,7 +27,7 @@ router.patch(
 );
 router.delete(
   "/:conversationId",
-  middlewares.isLoggedIn,
+  [middlewares.isLoggedIn, middlewares.isParticipant],
   controllers.deleteConversation
 );
 

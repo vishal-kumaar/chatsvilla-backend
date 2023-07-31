@@ -1,39 +1,44 @@
 import express from "express";
 import controllers from "../controllers/index.js";
-import middlwares from "../middlewares/index.js";
+import middlewares from "../middlewares/index.js";
 
 const router = express.Router();
 
 router.get(
   "/profile/:userId",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.getProfileById
 );
 router.get(
   "/friends/:userId",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.getFriendsById
 );
 router.patch(
   "/request/sent/:userId",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.sendRequest
 );
-router.get("/request/sent", middlwares.isLoggedIn, controllers.getSentRequests);
+router.patch(
+  "/request/accept/:userId",
+  middlewares.isLoggedIn,
+  controllers.acceptFriendRequest
+);
+router.get("/request/sent", middlewares.isLoggedIn, controllers.getSentRequests);
 router.get(
   "/request/received",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.getReceivedRequests
 );
 router.patch(
   "/profile/update",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.updateProfile
 );
-router.patch("/status/update", middlwares.isLoggedIn, controllers.updateStatus);
+router.patch("/status/update", middlewares.isLoggedIn, controllers.updateStatus);
 router.patch(
   "/password/update",
-  middlwares.isLoggedIn,
+  middlewares.isLoggedIn,
   controllers.updatePassword
 );
 
