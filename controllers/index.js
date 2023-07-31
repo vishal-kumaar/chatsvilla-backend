@@ -1,5 +1,6 @@
 import signup from "./auth/signup.js";
 import login from "./auth/login.js";
+import searchPeople from "./user/searchPeople.js";
 import getProfileById from "./user/getProfileById.js";
 import getFriendsById from "./user/getFriendsById.js";
 import sendRequest from "./user/sendRequest.js";
@@ -19,6 +20,7 @@ import deleteConversation from "./conversation/deleteConversation.js";
 const controllers = {
   signup,
   login,
+  searchPeople,
   getProfileById,
   getFriendsById,
   sendRequest,
