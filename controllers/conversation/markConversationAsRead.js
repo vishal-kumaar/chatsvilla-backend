@@ -1,6 +1,5 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
-import Conversation from "../../schemas/conversation.schema.js";
 import Message from "../../schemas/message.schema.js";
 
 /********************************************************
@@ -38,7 +37,6 @@ const markConversationAsRead = asyncHandler(async (req, res) => {
     });
     await message.save();
   });
-
 
   res.status(200).json({
     success: true,

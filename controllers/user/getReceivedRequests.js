@@ -4,7 +4,7 @@ import User from "../../schemas/user.schema.js";
 /********************************************************
  * @GET_RECEIVED_REQUESTS
  * @METHOD GET
- * @route /api/user/request/received
+ * @route /api/user/requests/received
  * @description Check for req.user and get the list of friend received requests
  * @parameters none
  * @return receivedRequests object

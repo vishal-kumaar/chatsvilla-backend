@@ -10,19 +10,19 @@ router.get(
   middlewares.isLoggedIn,
   controllers.getProfileById
 );
-router.get("/friend", middlewares.isLoggedIn, controllers.getFriends);
+router.get("/friends", middlewares.isLoggedIn, controllers.getFriends);
 router.get(
-  "/friend/:userId",
+  "/friends/:userId",
   middlewares.isLoggedIn,
   controllers.getFriendsById
 );
 router.get(
-  "/friend/:userId/mutual",
+  "/friends/:userId/mutual",
   middlewares.isLoggedIn,
   controllers.mutualFriends
 );
 router.patch(
-  "/request/sent/:userId",
+  "/request/send/:userId",
   middlewares.isLoggedIn,
   controllers.sendRequest
 );
@@ -32,12 +32,12 @@ router.patch(
   controllers.acceptFriendRequest
 );
 router.get(
-  "/request/sent",
+  "/requests/sent",
   middlewares.isLoggedIn,
   controllers.getSentRequests
 );
 router.get(
-  "/request/received",
+  "/requests/received",
   middlewares.isLoggedIn,
   controllers.getReceivedRequests
 );

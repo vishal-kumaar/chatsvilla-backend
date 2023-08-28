@@ -5,7 +5,7 @@ import User from "../../schemas/user.schema.js";
 /********************************************************
  * @MUTUAL_FRIENDS
  * @METHOD GET
- * @route /api/user/friend/:userId/mutual
+ * @route /api/user/friends/:userId/mutual
  * @description Get the list of mutual friends of the authenticated user
  * @return array of user objects representing mutual friends
  *********************************************************/

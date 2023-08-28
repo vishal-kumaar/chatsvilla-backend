@@ -4,7 +4,7 @@ import User from "../../schemas/user.schema.js";
 /********************************************************
  * @GET_SENT_REQUESTS
  * @METHOD GET
- * @route /api/user/request/sent
+ * @route /api/user/requests/sent
  * @description Check for req.user and get the list of friend sent requests
  * @parameters none
  * @return sentRequests object
