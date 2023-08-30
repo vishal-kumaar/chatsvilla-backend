@@ -1,6 +1,7 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
 import User from "../../schemas/user.schema.js";
+import config from "../../config/index.js";
 
 /********************************************************
  * @LOGIN
@@ -40,7 +41,10 @@ const login = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Login successful",
-    token,
+    token: {
+      value: token,
+      expiresIn: config.jwtExpiry,
+    },
     user,
   });
 });
