@@ -26,9 +26,8 @@ const acceptFriendRequest = asyncHandler(async (req, res) => {
     throw new CustomError("No pending friend request from this user", 404);
   }
 
-  user.friends.push(friendRequestSender);
-  friendRequestSender.friends.push(userId);
-  await user.save();
+  user.friends.push(userId);
+  friendRequestSender.friends.push(user._id);;
 
   user.receivedFriendRequests = user.receivedFriendRequests.filter(
     (requestId) => requestId.toString() !== userId
