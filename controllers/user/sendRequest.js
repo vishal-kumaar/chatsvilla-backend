@@ -14,6 +14,18 @@ import User from "../../schemas/user.schema.js";
 const sendRequest = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
+  if (req.user._id.equals(userId)) {
+    throw new CustomError("You can't send friend request to yourself", 404);
+  }
+
+  if (req.user.friends.includes(userId)) {
+    throw new CustomError("Already friend", 409);
+  }
+
+  if (req.user.sentFriendRequests.includes(userId)) {
+    throw new CustomError("You already sent the request", 409);
+  }
+
   const user = await User.findById(userId);
 
   if (!user) {
@@ -23,8 +35,8 @@ const sendRequest = asyncHandler(async (req, res) => {
   user.receivedFriendRequests.push(req.user._id);
   req.user.sentFriendRequests.push(user._id);
 
-  user.save();
-  req.user.save();
+  await user.save();
+  await req.user.save();
 
   res.status(200).json({
     success: true,
