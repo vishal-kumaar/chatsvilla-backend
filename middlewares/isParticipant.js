@@ -6,14 +6,12 @@ const isParticipant = asyncHandler(async (req, _res, next) => {
   const { conversationId } = req.params;
   const user = req.user;
   const conversation = await Conversation.findById(conversationId)
-    .populate("participants.user", "name profilePic email")
+    .populate("participants.user", "name profilePic email online lastSeen")
     .populate({
       path: "messages",
-      match: {
-        $or: [
-          { sender: user._id },
-          { "recipients.user": user._id, "recipients.isDeleted": false },
-        ],
+      populate: {
+        path: "sender",
+        select: "name username profilePic",
       },
     })
     .exec();
@@ -36,7 +34,7 @@ const isParticipant = asyncHandler(async (req, _res, next) => {
   if (participant.isDeleted) {
     throw new CustomError("Conversation has been deleted", 404);
   }
-  
+
   req.user = user;
   req.conversation = conversation;
 

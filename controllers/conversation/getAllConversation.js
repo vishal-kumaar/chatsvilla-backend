@@ -7,7 +7,7 @@ import Conversation from "../../schemas/conversation.schema.js";
  * @route /api/conversation
  * @description Get all conversations
  * @return array of conversation objects
- *********************************************************/
+ *********************S************************************/
 
 const getAllConversations = asyncHandler(async (req, res) => {
   const { user } = req;
@@ -16,19 +16,9 @@ const getAllConversations = asyncHandler(async (req, res) => {
     "participants.user": user._id,
     "participants.isDeleted": false,
   })
-    .populate({
-      path: "participants.user",
-      select: "name profilePic email",
-    })
-    .populate({
-      path: "messages",
-      match: {
-        $or: [
-          { sender: user._id },
-          { "recipients.user": user._id, "recipients.isDeleted": false },
-        ],
-      },
-    })
+    .populate("participants.user", "name profilePic email online")
+    .populate("messages")
+    .populate("lastMessage")
     .exec();
 
   const conversationsWithUnreadCount = conversations.map((conversation) => {
@@ -47,7 +37,20 @@ const getAllConversations = asyncHandler(async (req, res) => {
       0
     );
 
+    let participantUser = undefined;
+    if (conversation.type === "Individual") {
+      for (let participant of conversation.participants) {
+        if (!participant.user._id.equals(user._id)) {
+          participantUser = participant;
+        }
+      }
+      conversation.participants = undefined;
+    }
+
+    conversation.messages = undefined;
+
     return {
+      participant: participantUser,
       ...conversation.toObject(),
       unreadMessageCount,
     };
