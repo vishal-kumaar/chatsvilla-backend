@@ -37,7 +37,7 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     const recipientUser = await User.findById(recipientId);
     if (!recipientUser) {
-      throw new CustomError("Invalid conversationId/recipientId", 404);
+      throw new CustomErrfor("Invalid conversationId/recipientId", 404);
     }
 
     conversation = await Conversation.findOne({
@@ -96,7 +96,6 @@ const sendMessage = asyncHandler(async (req, res) => {
   });
 
   conversation.messages.push(newMessage._id);
-  conversation.lastMessage = newMessage._id;
   await conversation.save();
 
   res.status(200).json({

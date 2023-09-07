@@ -18,24 +18,23 @@ const getAllConversations = asyncHandler(async (req, res) => {
   })
     .populate("participants.user", "name profilePic email online")
     .populate("messages")
-    .populate("lastMessage")
     .exec();
 
   const conversationsWithUnreadCount = conversations.map((conversation) => {
-    const unreadMessageCount = conversation.messages.reduce(
-      (count, message) => {
-        let isRead = false;
-        const isRecipient = message.recipients.some((recipient) => {
-          isRead = recipient.isRead;
-          return recipient.user.equals(user._id);
-        });
-        if (isRecipient && !isRead) {
-          count += 1;
+    let unreadMessageCount = 0;
+    const filterMessage = conversation.messages.filter((message) => {
+      const recipients = message.recipients;
+      for (let recipient of recipients) {
+        if (message.sender._id.equals(user._id)) {
+          return message;
+        } else if (recipient.user.equals(user._id) && !recipient.isDeleted) {
+          if (!recipient.isRead) {
+            unreadMessageCount++;
+          }
+          return message;
         }
-        return count;
-      },
-      0
-    );
+      }
+    });
 
     let participantUser = undefined;
     if (conversation.type === "Individual") {
@@ -47,11 +46,13 @@ const getAllConversations = asyncHandler(async (req, res) => {
       conversation.participants = undefined;
     }
 
+    const lastMessage = filterMessage[filterMessage.length - 1];
     conversation.messages = undefined;
 
     return {
       participant: participantUser,
       ...conversation.toObject(),
+      lastMessage: lastMessage,
       unreadMessageCount,
     };
   });
