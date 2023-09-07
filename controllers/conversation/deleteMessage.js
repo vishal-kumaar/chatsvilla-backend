@@ -42,7 +42,8 @@ const deleteMessage = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: foundMessage,
+    message: "Message Deleted",
+    deletedMessage: foundMessage,
   });
 });
 
