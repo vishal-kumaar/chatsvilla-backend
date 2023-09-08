@@ -13,16 +13,31 @@ const getConversation = asyncHandler(async (req, res) => {
   const { user, conversation } = req;
 
   let unreadMessageCount = 0;
-  const filterMessage = conversation.messages.filter((message) => {
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const categorizedMessages = {};
+
+  conversation.messages.forEach((message) => {
+    const messageDate = new Date(message.createdAt);
+
     const recipients = message.recipients;
+    messageDate.setHours(0, 0, 0, 0);
+
     for (let recipient of recipients) {
-      if (message.sender._id.equals(user._id)) {
-        return message;
-      } else if (recipient.user.equals(user._id) && !recipient.isDeleted) {
+      if (
+        message.sender._id.equals(user._id) ||
+        (recipient.user.equals(user._id) && !recipient.isDeleted)
+      ) {
         if (!recipient.isRead) {
           unreadMessageCount++;
         }
-        return message;
+        const formattedDate = messageDate.toLocaleDateString("en-GB");
+        if (!categorizedMessages[formattedDate]) {
+          categorizedMessages[formattedDate] = [];
+        }
+        categorizedMessages[formattedDate].push(message);
       }
     }
   });
@@ -41,7 +56,7 @@ const getConversation = asyncHandler(async (req, res) => {
     userId: user._id,
     participant: participantUser,
     ...conversation.toObject(),
-    messages: filterMessage,
+    messages: categorizedMessages,
     unreadMessageCount,
   };
 
