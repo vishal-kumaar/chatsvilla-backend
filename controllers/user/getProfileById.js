@@ -14,7 +14,9 @@ import User from "../../schemas/user.schema.js";
 const getProfileById = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId)
+    .populate("friends", "name profilePicture username")
+    .exec();
 
   if (!user) {
     throw new CustomError("User not found", 404);
