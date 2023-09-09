@@ -33,6 +33,7 @@ const deleteConversation = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
+    message: "Conversation Deleted",
     conversation,
   });
 });
