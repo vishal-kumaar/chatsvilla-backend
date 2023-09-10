@@ -20,7 +20,7 @@ const searchPeople = asyncHandler(async (req, res) => {
         { username: { $regex: query, $options: "i" } },
         { name: { $regex: query, $options: "i" } },
       ],
-    }).select("name username profilePic email");
+    }).select("name username profilePic bio");
   } else {
     searchResults = [];
   }
