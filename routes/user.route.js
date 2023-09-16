@@ -5,6 +5,7 @@ import middlewares from "../middlewares/index.js";
 const router = express.Router();
 
 router.get("/search", middlewares.isLoggedIn, controllers.searchPeople);
+router.get("/profile", middlewares.isLoggedIn, controllers.getProfile);
 router.get(
   "/profile/:userId",
   middlewares.isLoggedIn,
