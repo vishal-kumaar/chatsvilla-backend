@@ -36,21 +36,10 @@ const getAllConversations = asyncHandler(async (req, res) => {
       }
     });
 
-    let participantUser = undefined;
-    if (conversation.type === "Individual") {
-      for (let participant of conversation.participants) {
-        if (!participant.user._id.equals(user._id)) {
-          participantUser = participant;
-        }
-      }
-      conversation.participants = undefined;
-    }
-
     const lastMessage = filterMessage[filterMessage.length - 1];
     conversation.messages = undefined;
 
     return {
-      participant: participantUser,
       ...conversation.toObject(),
       lastMessage: lastMessage,
       unreadMessageCount,

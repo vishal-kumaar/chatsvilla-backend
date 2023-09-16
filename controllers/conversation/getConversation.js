@@ -42,19 +42,7 @@ const getConversation = asyncHandler(async (req, res) => {
     }
   });
 
-  let participantUser = undefined;
-  if (conversation.type === "Individual") {
-    for (let participant of conversation.participants) {
-      if (!participant.user._id.equals(user._id)) {
-        participantUser = participant;
-      }
-    }
-    conversation.participants = undefined;
-  }
-
   const conversationsWithUnreadCount = {
-    userId: user._id,
-    participant: participantUser,
     ...conversation.toObject(),
     messages: categorizedMessages,
     unreadMessageCount,
