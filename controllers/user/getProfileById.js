@@ -22,15 +22,9 @@ const getProfileById = asyncHandler(async (req, res) => {
     throw new CustomError("User not found", 404);
   }
 
-  let isOwner = false;
-
-  if (user._id.equals(req.user._id)) {
-    isOwner = true;
-  }
 
   res.status(200).json({
     success: true,
-    isOwner,
     user,
   });
 });
