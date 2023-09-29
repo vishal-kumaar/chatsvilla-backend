@@ -18,7 +18,6 @@ const markConversationAsRead = asyncHandler(async (req, res) => {
   const messages = await Message.find({
     conversation: conversationId,
     $or: [
-      { sender: user._id },
       {
         "recipients.user": user._id,
         "recipients.isDeleted": false,
