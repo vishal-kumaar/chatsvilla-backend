@@ -3,7 +3,6 @@ import CustomError from "../../utils/CustomError.js";
 import Conversation from "../../schemas/conversation.schema.js";
 import Message from "../../schemas/message.schema.js";
 import User from "../../schemas/user.schema.js";
-import { io, connectedUsers } from "../../app.js";
 
 /********************************************************
  * @SEND_MESSAGE
@@ -86,13 +85,6 @@ const sendMessage = asyncHandler(async (req, res) => {
     conversation: conversation._id,
     message,
     messageType,
-  });
-
-  conversation.participants.forEach((participant) => {
-    const recipientId = participant.user._id;
-    if (connectedUsers.has(recipientId.toString())) {
-      io.to(recipientId).emit("newMessage", newMessage);
-    }
   });
 
   conversation.messages.push(newMessage._id);
